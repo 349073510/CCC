@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+using ll = long long;
+int main(){
+    ios::sync_with_stdio(0); cin.tie(0);
+    int J, A;
+    cin >> J >> A;
+    map<char, int> mp;
+    mp['L'] = 3; mp['M'] = 2; mp['S'] = 1;
+    char jerseys[J+1];
+    for(int i = 1; i <= J; i++) cin >> jerseys[i];
+    bool used[J+1] = {0}; int ans = 0;
+    for(int i = 0; i < A; i++){
+        char j; int a;
+        cin >> j >> a;
+        if(!used[a] && mp[jerseys[a]] >= mp[j]){
+            ans++;
+            used[a] = true;
+        }
+    }
+    cout << ans << "\n";
+    return 0;
+}
