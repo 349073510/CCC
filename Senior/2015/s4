@@ -1,0 +1,71 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st; 
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int K = readInt(), n = readInt(), m = readInt();
+		ArrayList<edge> adj[] = new ArrayList[n + 1];
+		for(int i = 1; i <= n; i++) adj[i] = new ArrayList<>();
+		for(int i = 1; i <= m; i++) {
+			int u = readInt(), v = readInt(), t = readInt(), h = readInt();
+			adj[u].add(new edge(v, t, h));
+			adj[v].add(new edge(u, t, h));
+		}
+		int A = readInt(), B = readInt(), dist[][] = new int[n + 1][K];
+		for(int i = 1; i <= n; i++) Arrays.fill(dist[i], Integer.MAX_VALUE);
+		boolean[][] vis = new boolean[n + 1][K];
+		PriorityQueue<edge> q = new PriorityQueue<>();
+		dist[A][0] = 0; q.add(new edge(A, 0, 0));
+		while(!q.isEmpty()) {
+			int u = q.peek().v, h = q.peek().h; q.poll();
+			if(vis[u][h]) continue;
+			vis[u][h] = true;
+			if(u == B) {
+				System.out.println(dist[u][h]);
+				return;
+			}
+			for(edge e : adj[u]) {
+				if(h + e.h < K && dist[e.v][h + e.h] > dist[u][h] + e.w) {
+					dist[e.v][h + e.h] = dist[u][h] + e.w;
+					q.add(new edge(e.v, dist[e.v][h + e.h], h + e.h));
+				}
+			}
+		}
+		System.out.println(-1);
+	}
+	static class edge implements Comparable<edge>{
+		int v, w, h;
+		edge(int v, int w, int h){
+			this.v = v;
+			this.w = w;
+			this.h = h;
+		}
+		public int compareTo(edge x) {
+			return Integer.compare(w, x.w);
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
