@@ -1,31 +1,34 @@
 import java.util.*;
 import java.io.*;
 import java.math.*;
+import java.util.Map.*;
 public class Main {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
 	static StringTokenizer st;
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int c = readInt(), a[][] = new int[2][c];
-		int ans = 0;
+		int c = readInt(), a[][] = new int[2][c], black = 0;
 		for(int i = 0; i < 2; i++) {
 			for(int j = 0; j < c; j++) {
 				a[i][j] = readInt();
-				ans += a[i][j];
+				if(a[i][j] == 1) black++;
 			}
 		}
-		ans *= 3;
-		for(int i = 0; i < c; i++) {
-			if(a[0][i] == 0) continue;
-			if(i + 1 < c && a[0][i + 1] == 1) ans -= 2;
-			if(a[1][i] == 1 && i % 2 == 0) ans -= 2;
+		black *= 3; //Meters of tape used if all triangles are wrapped(includes double-counted ones)
+		//Row 1 check
+		for(int j = 0; j < c; j++) {
+			if(a[0][j] == 0) continue; //If the current triangle is white, continue
+			if(j + 1 < c && a[0][j + 1] == 1) black -= 2; //If the next triangle is black, minus double-counted amount
+			//If it's an even-row vertical pair, don't subtract anything
+			if(a[1][j] == 1 && (j + 1) % 2 == 1) black -= 2; //If the bottom triangle is black, minus double-counted amount
 		}
-		for(int i = 1; i < c; i++) {
-			if(a[1][i] == 0) continue;
-			if(a[1][i - 1] == 1) ans -= 2;
+		//Row 2 check
+		for(int j = 0; j < c; j++) {
+			if(a[1][j] == 0) continue; //If the current triangle is white, continue
+			if(j - 1 >= 0 && a[1][j - 1] == 1) black -= 2; //If the behind triangle is black, minus double-counted amount
 		}
-		System.out.println(ans);
-    }
+		System.out.println(black);
+	}
 	static String next() throws IOException {
 		while (st == null || !st.hasMoreTokens())
 			st = new StringTokenizer(br.readLine().trim());
