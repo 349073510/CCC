@@ -1,0 +1,95 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException {
+		/*
+		 Mountain: [9,6,5,3,8,4,7,2,1,10]
+		 Sorted: [1,2,3,4,5,6,7,8,9,10]
+		 
+		 Branch: [10]
+		 Lake: [1]
+		 Lake: [1,2]
+		 Branch: [10,7]
+		 
+		 */
+		int t = readInt();
+		for(int i = 0; i < t; i++) {
+			Stack<Integer> mountain = new Stack(), branch = new Stack(), lake = new Stack();
+			int n = readInt();
+			int[] arr = new int[n];
+			for(int j = 0; j < n; j++) {
+				arr[j] = readInt();
+				mountain.push(arr[j]);
+			}
+			Arrays.sort(arr);
+//			System.out.println(Arrays.toString(arr));
+			for(int k = 0; k < n; k++) {
+				if(!branch.isEmpty()) {
+					if(branch.peek() == arr[k]) {
+						lake.push(branch.peek());
+						branch.pop();
+						continue;
+					}
+				}
+				if(!mountain.isEmpty()) {
+					if(mountain.peek() == arr[k]) {
+						lake.push(mountain.peek());
+						mountain.pop();
+					}else {
+						branch.push(mountain.peek());
+						mountain.pop();
+						k -= 1;
+					}
+				}else {
+					break;
+				}
+			}
+			while(!branch.isEmpty()) {
+				lake.push(branch.peek());
+				branch.pop();
+			}
+			boolean same = true;
+			for(int l = n - 1; l >= 0; l--) {
+				if(lake.peek() != arr[l]) {
+					same = false;
+				}
+				lake.pop();
+			}
+			if(same) {
+				System.out.println("Y");
+			}else {
+				System.out.println("N");
+			}
+		}
+	}
+
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
