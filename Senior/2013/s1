@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+using ll = long long;
+int main(){
+    ios::sync_with_stdio(0); cin.tie(0);
+    int n;
+    cin >> n;
+    n++;
+    set<int> st;
+    while(1){
+        int tmp = n, len = 0;
+        set<int> st;
+        while(tmp != 0){
+            st.insert(tmp % 10);
+            tmp /= 10;
+            len++;
+        }
+        if(st.size() == len) break;
+        n++;
+    }
+
+    cout << n << "\n";
+    return 0;
+}
