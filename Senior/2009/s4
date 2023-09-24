@@ -1,0 +1,74 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st; 
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt(), t = readInt(), adj[][] = new int[n + 1][n + 1];
+		for(int i = 0; i < t; i++) {
+			int x = readInt(), y = readInt(), c = readInt();
+			adj[x][y] = adj[y][x] = c;
+		}
+		int[] p = new int[n + 1];
+		Arrays.fill(p, (int)1e8);
+		for(int k = readInt(); k > 0; k--) p[readInt()] = readInt();
+		int dest = readInt();
+		int ans = p[dest];
+		PriorityQueue<edge> q = new PriorityQueue<>();
+		int[] dist = new int[n + 1];
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		boolean[] vis = new boolean[n + 1];
+		q.add(new edge(dest, 0));
+		dist[dest] = 0;
+		while(!q.isEmpty()) {
+			edge curr = q.poll();
+			int u = curr.v, w = curr.w;
+			if(vis[u]) continue;
+			for(int v = 0; v < adj[u].length; v++) {
+				int nxt = adj[u][v];
+				if(nxt == 0) continue;
+				if(dist[u] + nxt < dist[v]) {
+					dist[v] = dist[u] + nxt;
+					q.add(new edge(v, dist[v]));
+				}
+			}
+		}
+		for(int i = 1; i <= n; i++) {
+			ans = Math.min(ans, dist[i] + p[i]);
+		}
+		System.out.println(ans);
+	}
+	static class edge implements Comparable<edge>{
+		int v, w;
+		edge(int v0, int w0){
+			v = v0;
+			w = w0;
+		}
+		public int compareTo(edge x) {
+			return Integer.compare(w, x.w);
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
