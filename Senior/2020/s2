@@ -1,0 +1,58 @@
+import java.util.*;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt(), m = readInt(), max = (int)1e6;
+		ArrayList<Integer>[] adj = new ArrayList[max + 1];
+		for(int i = 1; i <= max; i++) adj[i] = new ArrayList<>();
+		for(int i = 1; i <= n; i++) {
+			for(int j = 1; j <= m; j++) {
+				adj[i * j].add(readInt());
+			}
+		}
+		Queue<Integer> q = new LinkedList<>();
+		boolean vis[] = new boolean[max + 1];
+		q.add(1);
+		vis[1] = true;
+		while(!q.isEmpty()) {
+			int curr = q.poll();
+			for(int next : adj[curr]) {
+				if(!vis[next]) {
+					q.add(next);
+					vis[next] = true;
+				}
+			}
+		}
+		System.out.println(vis[n * m]? "yes" : "no");
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
