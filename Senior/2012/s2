@@ -1,0 +1,65 @@
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+		String str = readLine();
+		int prevNumeral = 0, prevValue = 0, currNumeral = 0, total = 0;
+		for(int i = 0; i < str.length(); i += 2) {
+			int num = Character.getNumericValue(str.charAt(i));
+			char numeralCh = str.charAt(i + 1);
+			if(numeralCh == 'I') currNumeral = 1;
+			if(numeralCh == 'V') currNumeral = 5;
+			if(numeralCh == 'X') currNumeral = 10;
+			if(numeralCh == 'L') currNumeral = 50;
+			if(numeralCh == 'C') currNumeral = 100;
+			if(numeralCh == 'D') currNumeral = 500;
+			if(numeralCh == 'M') currNumeral = 1000;
+			if(i == 0) {
+				total = num * currNumeral;
+				prevValue = total;
+				prevNumeral = currNumeral;
+			}else {
+				if(currNumeral > prevNumeral) {
+					total -= prevValue;
+					total -= prevValue;
+				}
+				total += num * currNumeral;
+				prevValue = num * currNumeral;
+				prevNumeral = currNumeral;
+			}
+		}
+		System.out.println(total);
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
