@@ -1,0 +1,66 @@
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.Map.Entry;
+import java.io.*;
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException{
+		int n = readInt();
+		ArrayList<Integer> streams = new ArrayList<>();
+		for(int i = 0; i < n; i++) {
+			streams.add(readInt());
+		}
+		while(true) {
+			int num = readInt();
+			if(num == 77) break;
+			if(num == 99) {
+				int stream = readInt() - 1;
+				if(stream + 1 < streams.size()) {	
+					double percentage = (double)readInt() / 100;
+					int left = (int) (percentage * streams.get(stream)), right = streams.get(stream) - left;
+					streams.set(stream, left);
+					if(stream + 1 < streams.size()) {
+						streams.add(stream + 1, right);
+					}
+				}
+			}else if(num == 88) {
+				int stream = readInt() - 1;
+				if(stream + 1 < streams.size()) {
+					streams.set(stream, streams.get(stream) + streams.get(stream + 1));
+					streams.remove(stream + 1);
+				}
+			}
+//			System.out.println(streams);
+		}
+		for(Integer i : streams) {
+			System.out.print(i + " ");
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
