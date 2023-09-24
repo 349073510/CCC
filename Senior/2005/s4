@@ -1,0 +1,75 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		for(int t = readInt(); t > 0; t--) {
+			int n = readInt();
+			String root = "";
+			HashMap<String, ArrayList<String>> adj = new HashMap<>();
+			HashMap<String, Boolean> vis = new HashMap<>();
+			HashMap<String, Integer> dists = new HashMap<>();
+			for(int i = 0; i < n / 2; i++) {
+				String one = readLine(), two = readLine();
+				root = two;
+				if(!adj.containsKey(one)) {
+					adj.put(one, new ArrayList<>());
+					vis.put(one, false);
+					dists.put(one, 0);
+				}
+				if(!adj.containsKey(two)) {
+					adj.put(two, new ArrayList<>());
+					vis.put(two, false);
+					dists.put(two, 0);
+				}
+				adj.get(one).add(two); adj.get(two).add(one);
+			}
+			Queue<String> q = new LinkedList<>();
+			q.add(root);
+			vis.put(root, true);
+			int maxDepth = 0;
+			while(!q.isEmpty()) {
+				String curr = q.poll();
+				for(String next : adj.get(curr)) {
+					if(!vis.get(next)) {
+						q.add(next);
+						vis.put(next, true);
+						dists.put(next, dists.get(curr) + 1);
+						maxDepth = Math.max(maxDepth, dists.get(next));
+					}
+				}
+			}
+			System.out.println(10 * ((n / 2 - maxDepth) * 2));
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
