@@ -1,0 +1,101 @@
+import java.util.*;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	static int start, end, x, y, matrix[][];
+	public static void main(String[] args) throws IOException, InterruptedException {
+		start = readInt(); end = readInt(); matrix = new int[150][150]; 
+		matrix[74][74] = start;
+		int amount = 1;
+		x = y = 74;
+		while(start <= end) {
+			move('D', amount);
+			if(start > end) break;
+			move('R', amount);
+			if(start > end) break;
+			move('U', amount + 1);
+			if(start > end) break;
+			move('L', amount + 1);
+			if(start > end) break;
+			amount += 2;
+		}
+		print(matrix);
+	}
+	static void move(char dir, int amount) {
+		if(dir == 'D') {
+			for(int i = y + 1; i <= y + amount; i++) {
+				start++;
+				if(start > end) break;
+				matrix[i][x] = start;
+//				print(matrix);
+			}
+			y += amount;
+		}else if(dir == 'R') {
+			for(int i = x + 1; i <= x + amount; i++) {
+				start++;
+				if(start > end) break;
+				matrix[y][i] = start;
+//				print(matrix);
+			}
+			x += amount;
+		}else if(dir == 'U') {
+			for(int i = y - 1; i >= y - amount; i--) {
+				start++;
+				if(start > end) break;
+				matrix[i][x] = start;
+//				print(matrix);
+			}
+			y -= amount;
+		}else if(dir == 'L') {
+			for(int i = x - 1; i >= x - amount; i--) {
+				start++;
+				if(start > end) break;
+				matrix[y][i] = start;
+//				print(matrix);
+			}
+			x -= amount;
+		}
+		
+	}
+	static void print(int[][] matrix) {
+		for(int i = 0; i < 150; i++) {
+			for(int j = 0; j < 150; j++) {
+				if(matrix[i][j] == 0) {
+					System.out.print("   ");
+				}else {
+					System.out.print(matrix[i][j] + " ");
+				}
+			}
+			System.out.println();
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
