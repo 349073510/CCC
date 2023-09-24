@@ -1,0 +1,118 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		ArrayList<Integer> rooms = new ArrayList<>();
+		Coord[] moves = {new Coord(-1, 0), new Coord(1, 0), new Coord(0, -1), new Coord(0, 1)};
+		int max = readInt(), r = readInt(), c = readInt(), space = 0;
+		char[][] arr = new char[r][c];
+		boolean startFound = false;
+		int sR = -1, sC = -1;
+		for(int i = 0; i < r; i++) {
+			String str = readLine();
+			for(int j = 0; j < str.length(); j++) {
+				arr[i][j] = str.charAt(j);
+				if(!startFound && arr[i][j] == '.') {
+					startFound = true;
+					sR = i; sC = j;
+				}
+				if(arr[i][j] == '.') {
+					space++;
+				}
+			}
+		}
+		Queue<Coord> q = new LinkedList<>();
+		boolean[][] vis = new boolean[r][c];
+		q.add(new Coord(sR, sC));
+		vis[sR][sC] = true;
+		int located = 0;
+		while(true) {
+			if(located == space) break;
+			int room = 1;
+			located++;
+			if(q.isEmpty()) {
+				int i = sR, j = sC;
+loop: 			for(i = sR; i < r; i++) {
+					for(; j < c; j++) {
+						if(!vis[i][j] && arr[i][j] != 'I') {
+							sR = i; sC = j;
+							break loop;
+						}
+					}
+					j = 0;
+				}
+				q.add(new Coord(sR, sC));
+				vis[sR][sC] = true;
+			}
+			while(!q.isEmpty()) {
+				Coord curr = q.poll();
+				int currR = curr.r, currC = curr.c;
+				for(Coord next : moves) {
+					int nR = currR + next.r, nC = currC + next.c;
+					if(nR >= 0 && nR < r && nC >= 0 && nC < c) {
+						if(!vis[nR][nC] && arr[nR][nC] != 'I') {
+							q.add(new Coord(nR, nC));
+							vis[nR][nC] = true;
+							room++;
+							located++;
+						}
+					}
+				}
+			}
+			rooms.add(room);
+		}
+		Collections.sort(rooms, Collections.reverseOrder());
+		int total = 0, amount = 0;
+		for(Integer room : rooms) {
+			if(total + room <= max) {
+				total += room;
+				amount++;
+			}else {
+				break;
+			}
+		}
+		if(amount == 1) {
+			System.out.printf("%d room, %d square metre(s) left over", amount, max - total);
+		}else {
+			System.out.printf("%d rooms, %d square metre(s) left over", amount, max - total);
+		}
+	}
+	static class Coord{
+		int r, c;
+		Coord(int r, int c){
+			this.r = r;
+			this.c = c;
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
