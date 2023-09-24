@@ -1,0 +1,81 @@
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+		/*
+		 TopYodeller:
+		 Each yodeller: id, score, worst rank
+		 Use comparator to sort
+		 */
+		int n = readInt(), k = readInt();
+		Yodeller a[] = new Yodeller[n + 1];
+		for(int i = 1; i <= n; i++) {
+			a[i] = new Yodeller(i, 0, 0);
+		}
+		int[] score = new int[n + 1];
+		for(int i = 1; i <= k; i++) {
+			for(int j = 1; j <= n; j++) {
+				score[j] = readInt();
+			}
+			for(int j = 1; j <= n; j++) {
+				a[j].sc += score[a[j].id];
+			}
+			Arrays.sort(a, 1, n + 1);
+			int rk = 1;
+			for(int j = 1; j <= n; j++) {
+				if(j != 1 && a[j].sc != a[j - 1].sc) rk = j;
+				a[j].rk = Math.max(a[j].rk, rk);
+			}
+		}
+		for(int i = 1; i <= n; i++) {
+			if(a[i].sc == a[1].sc) {
+				System.out.printf("Yodeller %d is the TopYodeller: score %d, worst rank %d", a[i].id, a[i].sc, a[i].rk);
+				System.out.println();
+			}
+		}
+	}
+	static class Yodeller implements Comparable<Yodeller>{
+		int id, sc, rk; //id is the index, score is the cumulative score, rank is the worst rank
+		Yodeller(int i, int s, int r){
+			id = i;
+			sc = s;
+			rk = r;
+		}
+		public int compareTo(Yodeller x) {
+			if(sc != x.sc) return -Integer.compare(sc, x.sc);
+			return Integer.compare(id, x.id);
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
