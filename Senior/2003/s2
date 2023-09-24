@@ -1,0 +1,64 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		for(int t = readInt(); t > 0; t--) {
+			String[] ans = new String[4];
+			char[] vowels = {'a', 'e', 'i', 'o', 'u', ' '};
+			for(int i = 0; i < 4; i++) {
+				String line = readLine().toLowerCase();
+				int pos = -1;
+				for(char c : vowels) {
+					pos = Math.max(pos, line.lastIndexOf(c));
+				}
+				if(pos == -1) {
+					ans[i] = line;
+				}else {
+					ans[i] = line.substring(pos);
+				}
+			}
+			if(ans[0].equals(ans[1]) && ans[1].equals(ans[2]) && ans[2].equals(ans[3])) {
+				System.out.println("perfect");
+			}else if(ans[0].equals(ans[1]) && ans[2].equals(ans[3])) {
+				System.out.println("even");
+			}else if(ans[0].equals(ans[2]) && ans[1].equals(ans[3])) {
+				System.out.println("cross");
+			}else if(ans[0].equals(ans[3]) && ans[1].equals(ans[2])) {
+				System.out.println("shell");
+			}else {
+				System.out.println("free");
+			}
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
