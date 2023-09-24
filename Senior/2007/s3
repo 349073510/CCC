@@ -1,0 +1,55 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt(), maxv = (int)1e4;
+		int [] nxt = new int[maxv];
+		for(int i=1; i<=n; i++) {
+			int a = readInt(), b = readInt();
+			nxt[a] = b;
+		}
+		while(true) {
+			int x = readInt(), y = readInt();
+			if(x == 0 && y == 0) break;
+			boolean vis[] = new boolean [maxv];
+			int dis = 0;
+			while(x != y && !vis[x]) {
+				vis[x] = true; x = nxt[x];
+				dis++;
+			}
+			if(x==y) System.out.println("Yes " + (dis-1));
+			else System.out.println("No");
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
