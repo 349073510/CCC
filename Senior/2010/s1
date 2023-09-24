@@ -1,0 +1,54 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+ 
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt();
+		ArrayList<Pair> list = new ArrayList<>();
+		for(int i = 0; i < n; i++) {
+			list.add(new Pair(next(), 2 * readInt() + 3 * readInt() + readInt()));
+		}
+		Collections.sort(list);
+		if(list.size() == 1) System.out.println(list.get(0).name);
+		else if(list.size() >= 2){
+			System.out.println(list.get(0).name);
+			System.out.println(list.get(1).name);
+		}
+	}
+	static class Pair implements Comparable<Pair>{
+		String name;
+		int val;
+		Pair(String name, int val){
+			this.name = name;
+			this.val = val;
+		}
+		public int compareTo(Pair p) {
+			if(p.val == val) return -p.name.compareTo(name);
+			return Integer.compare(p.val, val);
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
