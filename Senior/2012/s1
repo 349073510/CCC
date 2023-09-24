@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+using ll = long long;
+
+int j;
+int main(){
+    ios::sync_with_stdio(0); cin.tie(0);
+    cin >> j;
+    if(j >= 4){
+        cout << (j - 1)*(j - 2)*(j - 3) / 6 << "\n";
+    }else{
+        cout << 0 << "\n";
+    }
+    return 0;
+}
