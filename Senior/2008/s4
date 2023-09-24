@@ -1,0 +1,80 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st; 
+	static int[] cards;
+	static int ans = 0;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		for(int n = readInt(); n > 0; n--) {
+			int a = readInt(), b = readInt(), c = readInt(), d = readInt();
+			ans = 0;
+			cards = new int[] {a, b, c, d};
+			int[] arr = new int[] {a, b, c, d};
+			boolean used[] = new boolean[4];
+			List<Integer> perm = new ArrayList();
+			p(arr, used, perm);
+			System.out.println(ans);
+		}
+	}
+	static void check(int x) {
+		if(x <= 24) ans = Math.max(ans, x);
+	}
+	static void fun(int curr, int next, int index) {
+		if(index == 3) {
+			check(curr + next);
+			check(curr - next);
+			check(curr * next);
+			if(next != 0 && curr % next == 0) check(curr / next);
+			return;
+		}
+		fun(curr + next, cards[index + 1], index + 1);
+		fun(curr - next, cards[index + 1], index + 1);
+		fun(curr * next, cards[index + 1], index + 1);
+		if(next != 0 && curr % next == 0) fun(curr / next, cards[index + 1], index + 1);
+		
+		fun(curr, next + cards[index + 1], index + 1);
+		fun(curr, next - cards[index + 1], index + 1);
+		fun(curr, next * cards[index + 1], index + 1);
+		if(cards[index + 1] != 0 && next % cards[index + 1] == 0) fun(curr, next / cards[index + 1], index + 1);
+	}
+	static void p(int a[], boolean used[], List<Integer> perm) {
+		if(perm.size() == a.length) {
+			for(int i = 0; i < 4; i++) cards[i] = perm.get(i);
+			fun(cards[0], cards[1], 1);
+			return;
+		}
+		for(int i = 0; i < a.length; i++) {
+			if(!used[i]) {
+				perm.add(a[i]);
+				used[i] = true;
+				p(a, used, perm);
+				perm.remove(perm.size() - 1);
+				used[i] = false;
+			}
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
