@@ -1,0 +1,62 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int curr = 1;
+		while(true) {
+			int num = readInt();
+			if(num == 0) {
+				System.out.println("You Quit!");
+				break;
+			}
+			curr += num;
+			if(curr > 100) curr -= num;
+			
+			if(curr == 9) curr = 34;
+			if(curr == 40) curr = 64;
+			if(curr == 67) curr = 86;
+			
+			if(curr == 54) curr = 19;
+			if(curr == 90) curr = 48;
+			if(curr == 99) curr = 77;
+			
+			System.out.printf("You are now on square %d", curr);
+			System.out.println();
+			if(curr == 100) {
+				System.out.println("You Win!");
+				break;
+			}
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
