@@ -1,0 +1,41 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt();
+		/*
+		 4x + 5y = n
+		 x = (n - 5y) / 4
+		 */
+		int ans = 0;
+		for(int i = 0; i <= n / 5; i++) {
+			if((n - 5 * i) % 4 == 0) ans++;
+		}
+		System.out.println(ans);
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine();
+	}
+}
