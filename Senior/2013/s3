@@ -1,0 +1,82 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+ 
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	static int t, ans = 0;
+	static int[] scores;
+	static ArrayList<Pair> games;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		t = readInt();
+		int g = readInt();
+		scores = new int[5];
+		boolean[][] played = new boolean[5][5];
+		for(int i = 0; i < g; i++) {
+			int a = readInt(), b = readInt(), sa = readInt(), sb = readInt();
+			if(sa > sb) scores[a] += 3;
+			else if(sb > sa) scores[b] += 3;
+			else {
+				scores[a]++; scores[b]++;
+			}
+			played[a][b] = true; played[b][a] = true;
+		}
+		games = new ArrayList<>();
+		for(int i = 1; i <= 4; i++) {
+			for(int j = i + 1; j <= 4; j++) {
+				if(!played[i][j]) games.add(new Pair(i, j));
+			}
+		}
+		fun(0);
+		System.out.println(ans);
+	}
+	static void fun(int index) {
+		if(index == games.size()) {
+			boolean ok = true;
+			for(int i = 1; i <= 4; i++) {
+				if(i == t) continue;
+				if(scores[i] >= scores[t]) {
+					ok = false;
+					break;
+				}
+			}
+			if(ok) ans++;
+			return;
+		}
+		scores[games.get(index).a] += 3; fun(index + 1); scores[games.get(index).a] -= 3;
+		scores[games.get(index).b] += 3; fun(index + 1); scores[games.get(index).b] -= 3;
+		
+		scores[games.get(index).a]++; scores[games.get(index).b]++; 
+		fun(index + 1);
+		scores[games.get(index).a]--; scores[games.get(index).b]--; 
+	}
+	static class Pair{
+		int a, b;
+		Pair(int a, int b){
+			this.a = a;
+			this.b = b;
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
