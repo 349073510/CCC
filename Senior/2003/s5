@@ -1,0 +1,68 @@
+import java.util.*;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	static int[] p;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		PriorityQueue<Edge> q = new PriorityQueue<>();
+		int c = readInt(), r = readInt(), d = readInt(); p = new int[c + 1];
+		for(int i = 1; i <= c; i++) p[i] = i;
+		for(int i = 1; i <= r; i++) {
+			int a = readInt(), b = readInt(), weight = readInt();
+			q.add(new Edge(a, b, weight));
+		}
+		int[] dest = new int[d];
+		for(int i = 0; i < d; i++) dest[i] = readInt();
+		int ans = 0;
+		for(int i = 0; i < dest.length; i++) {
+			while(find(1) != find(dest[i])) {
+				Edge curr = q.poll();
+				int fa = find(curr.a), fb = find(curr.b);
+				if(fa != fb) {
+					p[fa] = fb; 
+					ans = curr.w;
+				}
+			}
+		}
+		System.out.println(ans);
+	}
+	static int find(int node) {
+		if(node != p[node]) p[node] = find(p[node]);
+		return p[node];
+	}
+	static class Edge implements Comparable<Edge>{
+		int a, b, w;
+		Edge(int a0, int b0, int w0){
+			a = a0;
+			b = b0;
+			w = w0;
+		}
+		public int compareTo(Edge e) {
+			return -Integer.compare(w, e.w);
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
