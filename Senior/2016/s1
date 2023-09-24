@@ -1,0 +1,64 @@
+import java.util.*;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		String a = readLine(), b = readLine();
+		HashMap<Character, Integer> map = new HashMap<>();
+		int stars = 0;
+		for(int i = 0; i < a.length(); i++) {
+			map.put(a.charAt(i), map.getOrDefault(a.charAt(i), 0) + 1);
+		}
+		for(int i = 0; i < b.length(); i++) {
+			if(b.charAt(i) == '*') stars++;
+		}
+//		System.out.println(map);
+		for(int i = 0; i < b.length(); i++) {
+			if(b.charAt(i) != '*') {
+				if(map.containsKey(b.charAt(i))) {
+					map.put(b.charAt(i), map.get(b.charAt(i)) - 1);
+				}
+			}
+		}
+		for(Entry<Character, Integer> entry : map.entrySet()) {
+			if(entry.getValue() > 0) {
+				stars -= entry.getValue();
+				map.put(entry.getKey(), 0);
+			}
+		}
+		if(stars == 0) {
+			System.out.println('A');
+		}else {
+			System.out.println('N');
+		}
+	} 
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
