@@ -1,0 +1,75 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	static int n, m;
+	static Queue<Integer> q = new LinkedList<>();
+	static boolean[] vis;
+	static ArrayList<Integer> adj[];
+	public static void main(String[] args) throws IOException, InterruptedException {
+		n = readInt(); m = readInt();
+		adj = new ArrayList[n + 1];
+		for(int i = 1; i <= n; i++) adj[i] = new ArrayList<>();
+		for(int i = 0; i < m; i++) {
+			int one = readInt(), two = readInt();
+			adj[one].add(two);
+		}
+		int one = readInt(), two = readInt();
+		bfs(one);
+		if(vis[two]) {
+			System.out.println("yes");
+		}else {
+			bfs(two);
+			if(vis[one]) {
+				System.out.println("no");
+			}else {
+				System.out.println("unknown");
+			}
+		}
+	}
+	static void bfs(int start) {
+		q = new LinkedList<>();
+		vis = new boolean[n + 1];
+		q.add(start);
+		vis[start] = true;
+		while(!q.isEmpty()) {
+			int curr = q.poll();
+			for(Integer next : adj[curr]) {
+				if(!vis[next]) {
+					q.add(next);
+					vis[next] = true;
+				}
+			}
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
