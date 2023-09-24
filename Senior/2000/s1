@@ -1,0 +1,51 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st; 
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int q = readInt(), a = readInt(), b = readInt(), c = readInt(), ans = 0;
+		while(true) {
+			if(q == 0) break;
+			q--;
+			ans++;
+			a++;
+			if(a % 35 == 0) q += 30;
+			if(q == 0) break;
+			q--;
+			ans++;
+			b++;
+			if(b % 100 == 0) q += 60;
+			if(q == 0) break;
+			q--;
+			ans++;
+			c++;
+			if(c % 10 == 0) q += 9;
+			if(q == 0) break;
+		}
+		System.out.printf("Martha plays %d times before going broke.\n", ans);
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
