@@ -1,0 +1,60 @@
+import java.util.*;
+import java.util.Map.Entry;
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt(), m = readInt();
+		long k = readLong();
+		int[] arr = new int[n + 1];
+		Arrays.fill(arr, 1);
+		long diff = k - n;
+		int index = 1, length = 1;
+		for(int i = 1; i <= n; i++) {
+//			System.out.println(i + " " + diff);
+//			System.out.println(Arrays.toString(arr));
+			if(diff >= Math.min(i, m) - 1) {
+				arr[i] = index;
+				length = Math.min(i, m);
+			}else if(diff > 0){
+				arr[i] = arr[(int) (i - diff - 1)];
+				length = (int)(diff + 1);
+			}else {
+				arr[i] = arr[i - 1];
+				length = 1;
+			}
+			if(index == m) index = 1;
+			else index++;
+			diff -= length - 1;
+		}
+		if(diff != 0) {
+			System.out.println(-1);
+		}else {
+			for(int i = 1; i <= n; i++) System.out.print(arr[i] + " ");
+			System.out.println();
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
