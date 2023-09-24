@@ -1,0 +1,91 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+import java.io.*;
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		for(int t = readInt(); t > 0; t--) {
+			int r = readInt(), c = readInt();
+			char[][] arr = new char[r][c];
+			for(int i = 0; i < r; i++) {
+				String str = readLine();
+				for(int j = 0; j < str.length(); j++) {
+					arr[i][j] = str.charAt(j);
+				}
+			}
+			Coord[] all = {new Coord(0, 1), new Coord(0, -1), new Coord(1, 0), new Coord(-1, 0)};
+			Coord[] hor = {new Coord(0, 1), new Coord(0, -1)};
+			Coord[] ver = {new Coord(1, 0), new Coord(-1, 0)};
+			Queue<Coord> q = new LinkedList<>();
+			int[][] dist = new int[r][c];
+			boolean[][] vis = new boolean[r][c];
+			q.add(new Coord(0, 0));
+			vis[0][0] = true;
+			while(!q.isEmpty()) {
+				Coord curr = q.poll();
+				if(arr[curr.r][curr.c] == '+') {
+					for(Coord next : all) {
+						int nr = curr.r + next.r, nc = curr.c + next.c;
+						if(nr < 0 || nr >= r || nc < 0 || nc >= c || vis[nr][nc] || arr[nr][nc] == '*') continue;
+						q.add(new Coord(nr, nc));
+						vis[nr][nc] = true;
+						dist[nr][nc] = dist[curr.r][curr.c] + 1;
+					}
+				}else if(arr[curr.r][curr.c] == '-') {
+					for(Coord next : hor) {
+						int nr = curr.r + next.r, nc = curr.c + next.c;
+						if(nr < 0 || nr >= r || nc < 0 || nc >= c || vis[nr][nc] || arr[nr][nc] == '*') continue;
+						q.add(new Coord(nr, nc));
+						vis[nr][nc] = true;
+						dist[nr][nc] = dist[curr.r][curr.c] + 1;
+					}
+				}else if(arr[curr.r][curr.c] == '|') {
+					for(Coord next : ver) {
+						int nr = curr.r + next.r, nc = curr.c + next.c;
+						if(nr < 0 || nr >= r || nc < 0 || nc >= c || vis[nr][nc] || arr[nr][nc] == '*') continue;
+						q.add(new Coord(nr, nc));
+						vis[nr][nc] = true;
+						dist[nr][nc] = dist[curr.r][curr.c] + 1;
+					}
+				}
+			}
+			System.out.println(vis[r - 1][c - 1]? dist[r - 1][c - 1] + 1 : -1);
+		}
+	}
+	static class Coord{
+		int r, c;
+		Coord(int r, int c){
+			this.r = r;
+			this.c = c;
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
