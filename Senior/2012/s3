@@ -1,0 +1,60 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+ 
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static PrintWriter pr = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+	static StringTokenizer st;
+	public static void main(String[] args) throws IOException, InterruptedException {
+		int n = readInt(), freq[] = new int[1001];
+		for(int i = 0; i < n; i++) freq[readInt()]++;
+		ArrayList<Integer> cnt[] = new ArrayList[(int)2e6 + 1];
+		for(int i = 0; i <= (int)2e6; i++) cnt[i] = new ArrayList<>();
+		for(int i = 1; i < freq.length; i++) {
+			cnt[freq[i]].add(i);
+		}
+		for(int i = (int)2e6; i >= 0; i--) {
+			if(cnt[i].size() == 0) continue;
+			if(cnt[i].size() == 2) {
+				System.out.println(Math.abs(cnt[i].get(0) - cnt[i].get(1)));
+				return;
+			}else if(cnt[i].size() > 2) {
+				Collections.sort(cnt[i]);
+				System.out.println(cnt[i].get(cnt[i].size() - 1) - cnt[i].get(0));
+				return;
+			}else if(cnt[i].size() == 1) {
+				int ans = 0;
+				for(int j = i - 1; j >= 0; j--) {
+					if(cnt[j].size() > 0) {
+						for(int num : cnt[j]) {
+							ans = Math.max(ans, Math.abs(cnt[i].get(0) - num));
+						}
+						System.out.println(ans);
+						return;
+					}
+				}
+			}
+		}
+	}
+	static String next() throws IOException {
+		while (st == null || !st.hasMoreTokens())
+			st = new StringTokenizer(br.readLine().trim());
+		return st.nextToken();
+	}
+	static long readLong() throws IOException {
+		return Long.parseLong(next());
+	}
+	static int readInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+	static double readDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+	static char readCharacter() throws IOException {
+		return next().charAt(0);
+	}
+	static String readLine() throws IOException {
+		return br.readLine().trim();
+	}
+}
